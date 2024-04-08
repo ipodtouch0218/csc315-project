@@ -60,9 +60,15 @@ with open("datainsertion.sql","w") as file:
     #created pivot
     data = df2.pivot(index = ['session_id','animal_id'], columns = 'trait_code', values = 'alpha_value')
 
+    print(data, data.iloc[0,0], list(data.index[0]), sep = '\n')
+
     for i in range(0,len(data.index)):
-        file.write("""INSERT INTO session_animal (birth_weight, observations, milk_rating, 
+        file.write("""INSERT INTO session_animal (session_id, animal_id, birth_weight, observations, milk_rating, 
         kid_ease, num_of_kids, mother_score, mothering) VALUES (""")
+        #print()
+        for k in list(data.index[i]):
+            file.write(str(k))
+            file.write(',')
         for j in range(len(data.iloc[i,:])):
             file.write(str(data.iloc[i,j]))
             if(j != (len(data.iloc[i,:]))-1):
