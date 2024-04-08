@@ -8,7 +8,6 @@ data into database.
 #imported libraries
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
 
 with open("datainsertion.sql","w") as file:
     
