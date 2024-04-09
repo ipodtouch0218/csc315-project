@@ -23,8 +23,12 @@ with open("datainsertion.sql","w") as file:
     df = df.replace(np.nan, str('NULL'))
     
     #write Animal data into datainserition.sql
+    file.write("INSERT INTO animal (animal_id, sex, dam, status) VALUES")
     for i in df.index:
-        file.write("INSERT INTO animal (animal_id, sex, dam, status) VALUES (")
+        print(f"Creating inserts for 'animal'...{i}",end='\r')
+        if i != 0:
+            file.write(",")
+        file.write("\n(")
         for j in df:
             if j in [df.columns[0]]:
                 file.write(str(df.loc[i,j]))
@@ -34,7 +38,9 @@ with open("datainsertion.sql","w") as file:
                 file.write('\'')
             if df.loc[i,j] not in ['Current','Dead','Sold','Off Farm']:
                 file.write(',')
-        file.write(");\n")
+        file.write(")")
+    file.write(";\n")
+    print("Creating inserts for 'animal'...Done!")
     
     #putting SessionAnimalTrait data into pandas DataFrame
     df2 = pd.read_csv("Data/SessionAnimalTrait.csv")
@@ -67,9 +73,14 @@ with open("datainsertion.sql","w") as file:
     
     data = data.replace(np.nan, str('NULL'))
 
+
+    file.write("INSERT INTO session_animal (session_id, animal_id, birth_weight, observations, milk_rating,kid_ease, num_of_kids, mother_score, mothering) VALUES")
+
     for i in range(0,len(data.index)):
-        file.write("""INSERT INTO session_animal (session_id, animal_id, birth_weight, observations, milk_rating, 
-        kid_ease, num_of_kids, mother_score, mothering) VALUES (""")
+        print(f"Creating inserts for 'session_animal'...{i}",end='\r')
+        if i != 0:
+            file.write(",")
+        file.write("\n(")
         for k in list(data.index[i]):
             file.write(str(k))
             file.write(',')
@@ -83,9 +94,9 @@ with open("datainsertion.sql","w") as file:
             if(j != (len(data.iloc[i,:]))-1):
                 file.write(",")
             
-        file.write(");\n")
-
-
+        file.write(")")
+    file.write(";\n")
+    print(f"Creating inserts for 'session_animal'...Done!")
 
     #FAILED ATTEMPT #1
     """
