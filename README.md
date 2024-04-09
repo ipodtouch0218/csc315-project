@@ -3,7 +3,7 @@ The repository's purpose is to create a PostgreSQL supported goat database and r
 
 ### Disclaimers
 
-1. It is assumed that you are using and familiar with the Linus command line.
+1. It is assumed that you are using and familiar with the Linux command line.
 2. It is assumed that you have PostgreSQL installed on your machine, and are able to use PSQL commands on the command line.
 
 ## Instructions
