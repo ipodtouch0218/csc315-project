@@ -20,13 +20,19 @@ with open("datainsertion.sql","w") as file:
     #clean up data
     df = df.dropna(how='all')
     df = df.drop_duplicates()
+    df = df.replace(np.nan, str('NULL'))
     
     #write Animal data into datainserition.sql
     for i in df.index:
         file.write("INSERT INTO animal (animal_id, sex, dam, status) VALUES (")
         for j in df:
-            file.write(str(df.loc[i,j]))
-            if df.loc[i,j] not in ['Current','Dead','Sold']:
+            if j in [df.columns[0]]:
+                file.write(str(df.loc[i,j]))
+            else:
+                file.write('\'')
+                file.write(str(df.loc[i,j]))
+                file.write('\'')
+            if df.loc[i,j] not in ['Current','Dead','Sold','Off Farm']:
                 file.write(',')
         file.write(");\n")
     
@@ -58,18 +64,25 @@ with open("datainsertion.sql","w") as file:
 
     #created pivot
     data = df2.pivot(index = ['session_id','animal_id'], columns = 'trait_code', values = 'alpha_value')
+    
+    data = data.replace(np.nan, str('NULL'))
 
     for i in range(0,len(data.index)):
         file.write("""INSERT INTO session_animal (session_id, animal_id, birth_weight, observations, milk_rating, 
         kid_ease, num_of_kids, mother_score, mothering) VALUES (""")
-        #print()
         for k in list(data.index[i]):
             file.write(str(k))
             file.write(',')
         for j in range(len(data.iloc[i,:])):
-            file.write(str(data.iloc[i,j]))
+            if str(data.iloc[i,j]) == "NULL":
+                file.write(str(data.iloc[i,j]))
+            else:
+                file.write('\'')
+                file.write(str(data.iloc[i,j]))
+                file.write('\'')
             if(j != (len(data.iloc[i,:]))-1):
                 file.write(",")
+            
         file.write(");\n")
 
 
