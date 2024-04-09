@@ -20,11 +20,13 @@ The repository's purpose is to create a PostgreSQL supported goat database and r
 
 This should run a script that cleans up the initial data of the desired attributes, pivots the table into the desired format, and writes SQL insertion commands into the datainsertion.sql file.
 
-3. Create a database by running this command: `createdb <database-name>`
+3. Create a database by running this command:
+
+   `createdb <database-name>`
 
    So for example, `createdb project-group10`
 
-4. Create the database schema and tables by inserting the tablecreation.sql file into Postgres. To do this, run the command:
+5. Create the database schema and tables by inserting the tablecreation.sql file into Postgres. To do this, run the command:
 
    `\i tablecreation.sql`
 
