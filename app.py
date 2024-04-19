@@ -85,24 +85,41 @@ def connect(query):
 # app.py
 app = Flask(__name__)
 
+command = '''
+SELECT animal_id,SUM(score),AVG(score) FROM (
+        SELECT animal_id,session_id,
+            {conditions}
+            AS score
+        FROM alive_sessions     
+    )
+    GROUP BY animal_id
+    ORDER BY AVG(score) DESC;
+'''
+
+conditions = {
+    "birth_weight": "CASE WHEN birth_weight > 6 THEN 5 ELSE 3 END",
+    "mothering": "CASE WHEN mothering = 'Good Mom' THEN 5 ELSE 1 END",
+    "milk_rating": "CASE WHEN milk_rating = '1 Good Milk' THEN 5 ELSE 1 END",
+    "num_of_kids": "CASE WHEN num_of_kids = '2 Twins' THEN 4 WHEN num_of_kids = '3 Triplets' THEN 3 ELSE 2 END"
+}
 
 # serve form web page
-@app.route("/")
+@app.route('/')
 def form():
-    return render_template('my-form.html')
+    
+    # create the command that will get the rankings
+    conds = conditions.values()
+    cmd = command.format(conditions='+'.join(conds))
+    rows = connect(cmd)
 
-# handle venue POST and serve result web page
-@app.route('/venue-handler', methods=['POST'])
-def venue_handler():
-    rows = connect('SELECT venue_id, title FROM events WHERE venue_id = ' + request.form['venue_id'] + ';')
-    heads = ['venue_id', 'title']
-    return render_template('my-result.html', rows=rows, heads=heads)
+    return render_template('my-form.html', rows=rows)
 
 # handle query POST and serve result web page
-@app.route('/query-handler', methods=['POST'])
+@app.route('/', methods=['POST'])
 def query_handler():
+    print(f'{request.form["venue_id"]}')
     rows = connect(request.form['query'])
-    return render_template('my-result.html', rows=rows)
+    return render_template('my-form.html', rows=rows)
 
 if __name__ == '__main__':
     app.run(debug = True)

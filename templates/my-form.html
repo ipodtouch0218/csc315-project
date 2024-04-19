@@ -2,13 +2,13 @@
 
 <html>
     <head>
-        <title>Flask Example Input Form</title>
+        <title>Project Group 10</title>
     </head>
     <body>
-	    <h3>Flask|Python|Psycopg2|PostgreSQL</h3>
+	    <h2>Doe Point Ranking System</h2>
 
 	    <h4>Example 1 - result table with column headings</h4>
-        <form action="/venue-handler" method="POST">
+        <form method="POST">
             <div>
                 Find all the events at this venue_id
                 <input type="text" name="venue_id">
@@ -16,16 +16,28 @@
                 <input type="submit" value="Submit">
         </form>
 
-	    <h4>Example 2 - result table without column headings</h4>
-        <form action="/query-handler" method="POST">
-            <div>
-		        Enter any PostgreSQL command, terminated with a semicolon
-                <br />
-	            Example query: SELECT * FROM countries;
-		        <input type="text" name="query">
-            </div>
-                <input type="submit" value="Submit">
-        </form>
+		{% if rows %}
+        <table>
+            <!-- column header for loop in jinja template -->
+            <thead>
+                <tr>
+					<th>Animal ID</th>
+					<th>Total Points</th>
+					<th>Average Points per Session</th>
+                </tr>
+            </thead>
+            <!-- nested for loops in jinja template -->
+            <tbody>
+            {%for row in rows%}
+                <tr>
+                {%for col in row%}
+                    <td>{{col}}</td>
+                {%endfor%}
+                </tr>
+            {%endfor%}
+            </tbody>
+        </table>
+		{% endif %}
     </body>
 
     <!-- minimal styling -->
