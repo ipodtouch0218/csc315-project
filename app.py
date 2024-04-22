@@ -119,7 +119,7 @@ def form():
 def query_handler():
     print(f'{request.form["venue_id"]}')
     rows = connect(request.form['query'])
-    return render_template('my-form.html', rows=rows)
+    return render_template('my-result.html', rows=rows)
 
 if __name__ == '__main__':
     app.run(debug = True)

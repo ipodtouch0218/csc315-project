@@ -10,8 +10,29 @@
 	    <h4>Example 1 - result table with column headings</h4>
         <form method="POST">
             <div>
-                Find all the events at this venue_id
-                <input type="text" name="venue_id">
+                <label>Filter Ranking based on attributes:</label>
+                <br>
+                <input type="checkbox" id="birth_weight" name="birth_weight">
+                <label for="birth_weight">Birth Weight</label>
+                <br>
+                <input type="checkbox" id="mothering" name="mothering">
+                <label for="mothering">Mothering</label>
+                <br>
+                <input type="checkbox" id="milk_rating" name="milk_rating">
+                <label for="milk_rating">Milk Rating</label>
+                <br>
+                <input type="checkbox" id="num_of_kids" name="num_of_kids">
+                <label for="num_of_kids">Number of Kids</label>
+                <br>
+                <input type="checkbox" id="observations" name="observations">
+                <label for="observations">Observations</label>
+                <br>
+                <input type="checkbox" id="kid_ease" name="kid_ease">
+                <label for="kid_ease">Kid Ease</label>
+                <br>
+                <input type="checkbox" id="mother_score" name="mother_score">
+                <label for="mother_score">Mother Score</label>
+                <br>
             </div>
                 <input type="submit" value="Submit">
         </form>
@@ -23,7 +44,7 @@
                 <tr>
 					<th>Animal ID</th>
 					<th>Total Points</th>
-					<th>Average Points per Session</th>
+					<th>Average PpS</th>
                 </tr>
             </thead>
             <!-- nested for loops in jinja template -->
