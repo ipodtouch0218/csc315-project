@@ -23,13 +23,14 @@
     </style>
 
     <body>
+        {% if rows %}
         <table>
             <!-- column header for loop in jinja template -->
             <thead>
                 <tr>
-                {%for head in heads%}
-                    <th>{{head}}</th>
-                {%endfor%}
+					<th>Animal ID</th>
+					<th>Total Points</th>
+					<th>Average PpS</th>
                 </tr>
             </thead>
             <!-- nested for loops in jinja template -->
@@ -43,5 +44,6 @@
             {%endfor%}
             </tbody>
         </table>
-    </body>
+		{% endif %}
+    </body>  
 </html>

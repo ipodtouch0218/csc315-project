@@ -100,7 +100,10 @@ conditions = {
     "birth_weight": "CASE WHEN birth_weight > 6 THEN 5 ELSE 3 END",
     "mothering": "CASE WHEN mothering = 'Good Mom' THEN 5 ELSE 1 END",
     "milk_rating": "CASE WHEN milk_rating = '1 Good Milk' THEN 5 ELSE 1 END",
-    "num_of_kids": "CASE WHEN num_of_kids = '2 Twins' THEN 4 WHEN num_of_kids = '3 Triplets' THEN 3 ELSE 2 END"
+    "num_of_kids": "CASE WHEN num_of_kids = '2 Twins' THEN 4 WHEN num_of_kids = '3 Triplets' THEN 3 ELSE 2 END",
+    "observations": "CASE WHEN observations = '1 No Problems' THEN 5 ELSE 1 END",
+    "kid_ease": "CASE WHEN kid_ease = '1 No Assist' THEN 5 ELSE 1 END",
+    "mother_score": "CASE WHEN mother_score = '1 Doe stays close' THEN 5 ELSE 1 END"
 }
 
 # serve form web page
@@ -115,11 +118,46 @@ def form():
     return render_template('my-form.html', rows=rows)
 
 # handle query POST and serve result web page
+
+#@app.route('/', methods=['POST'])
+#def query_handler():
+#    print(f'{request.form.get("birth_weight","mothering","milk_rating","num_of_kids","observations","kid_ease","mother_score")}')
+#    rows = connect(request.form.get("birth_weight","mothering","milk_rating","num_of_kids","observations","kid_ease","mother_score"))
+#    return render_template('my-result.html', rows=rows)
+
 @app.route('/', methods=['POST'])
-def query_handler():
-    print(f'{request.form["venue_id"]}')
-    rows = connect(request.form['query'])
-    return render_template('my-result.html', rows=rows)
+def checkbox_handler():
+    filter = []
+    if request.method == 'POST':
+        if request.form.get("birth_weight"):
+            filter.append("CASE WHEN birth_weight > 6 THEN 5 ELSE 3 END")
+        if request.form.get("mothering"):
+            filter.append("CASE WHEN mothering = 'Good Mom' THEN 5 ELSE 1 END")
+        if request.form.get("milk_rating"):
+            filter.append("CASE WHEN milk_rating = '1 Good Milk' THEN 5 ELSE 1 END")
+        if request.form.get("num_of_kids"):
+            filter.append("CASE WHEN num_of_kids = '2 Twins' THEN 4 WHEN num_of_kids = '3 Triplets' THEN 3 ELSE 2 END")
+        if request.form.get("observations"):
+            filter.append("CASE WHEN observations = '1 No Problems' THEN 5 ELSE 1 END")
+        if request.form.get("kid_ease"):
+            filter.append("CASE WHEN kid_ease = '1 No Assist' THEN 5 ELSE 1 END")
+        if request.form.get("mother_score"):
+            filter.append("CASE WHEN mother_score = '1 Doe stays close' THEN 5 ELSE 1 END")
+        fquery = '''
+        SELECT animal_id,SUM(score),AVG(score) FROM (
+                SELECT animal_id,session_id,
+                    {conditions}
+                    AS score
+                FROM alive_sessions     
+            )
+            GROUP BY animal_id
+            ORDER BY AVG(score) DESC;
+        '''
+        fquery = fquery.format(conditions='+'.join(filter))
+
+        rows = connect(fquery)
+
+        return render_template('my-result.html',rows=rows)
 
 if __name__ == '__main__':
     app.run(debug = True)
