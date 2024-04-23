@@ -155,4 +155,4 @@ def checkbox_handler():
         return render_template('my-form.html', rows=rows, filters=request.form.to_dict().keys())
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug = True, static_url_path='/static')
