@@ -9,11 +9,11 @@ The repository's purpose is to create a PostgreSQL supported goat database and r
 
 ## Instructions
 
-1. Install python pip, psycopg2, pandas packages by typing these commands into the command line:
+1. Install python pip, psycopg2, pandas, Flask packages by typing these commands into the command line:
 
    `sudo pacman -Syu`
    
-   `sudo pacman -S python-pip python-psycopg2 python-pandas`
+   `sudo pacman -S python-pip python-psycopg2 python-pandas python-flask`
 
 2. From your home directory, change directory to the project-group10 folder with the command:
    
@@ -50,4 +50,12 @@ The repository's purpose is to create a PostgreSQL supported goat database and r
    Now all of the data should be stored in the database.
 
 If everything was done correctly, you should now have a working goat database with populated data.
-   
+
+8. Configure and run the Flask application with these two commands:
+
+   `FLASK_APP=app.py`
+   `flask run`
+
+   Then paste this URL into a web browser: `http://127.0.0.1:5000/`
+
+The Flask application should now be running on localhost.
