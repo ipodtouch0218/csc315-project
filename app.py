@@ -115,7 +115,7 @@ def form():
     cmd = command.format(conditions='+'.join(conds))
     rows = connect(cmd)
 
-    return render_template('my-form.html', rows=rows)
+    return render_template('my-form.html', rows=rows, filters=conditions.keys())
 
 # handle query POST and serve result web page
 
@@ -130,26 +130,9 @@ def checkbox_handler():
     filter = []
     if request.method == 'POST':
         has_filter = False
-        if request.form.get("birth_weight"):
-            filter.append("CASE WHEN birth_weight > 6 THEN 5 ELSE 3 END")
-            has_filter = True
-        if request.form.get("mothering"):
-            filter.append("CASE WHEN mothering = 'Good Mom' THEN 5 ELSE 1 END")
-            has_filter = True
-        if request.form.get("milk_rating"):
-            filter.append("CASE WHEN milk_rating = '1 Good Milk' THEN 5 ELSE 1 END")
-            has_filter = True
-        if request.form.get("num_of_kids"):
-            filter.append("CASE WHEN num_of_kids = '2 Twins' THEN 4 WHEN num_of_kids = '3 Triplets' THEN 3 ELSE 2 END")
-            has_filter = True
-        if request.form.get("observations"):
-            filter.append("CASE WHEN observations = '1 No Problems' THEN 5 ELSE 1 END")
-            has_filter = True
-        if request.form.get("kid_ease"):
-            filter.append("CASE WHEN kid_ease = '1 No Assist' THEN 5 ELSE 1 END")
-            has_filter = True
-        if request.form.get("mother_score"):
-            filter.append("CASE WHEN mother_score = '1 Doe stays close' THEN 5 ELSE 1 END")
+        
+        for key in request.form.to_dict().keys():
+            filter.append(conditions[key])
             has_filter = True
 
         if not has_filter:
@@ -169,7 +152,7 @@ def checkbox_handler():
 
         rows = connect(fquery)
 
-        return render_template('my-form.html',rows=rows)
+        return render_template('my-form.html', rows=rows, filters=request.form.to_dict().keys())
 
 if __name__ == '__main__':
     app.run(debug = True)

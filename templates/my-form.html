@@ -7,55 +7,73 @@
        
         <title>Project Group 10</title>
     </head>
-    <body>
-	    <h2>Doe Point Ranking System</h2>
 
+    <!-- Add some style to table (OPTIONAL) -->
+    <style type="text/css">
+    th:tr{
+        color: blue;
+    }
+    tr:nth-of-type(2n){
+        background-color: rgba(150, 150, 150, 0.5);
+    }
+	.center {
+		margin-left: auto;
+		margin-right: auto;
+	}
+	table {
+		width: 60%;
+		margin: 1em 1em 1em 1em;
+	}
+    form {
+        margin: 1%;
+    }
+    div {
+   		margin: 1% 0;
+    }
+    </style>
+
+    <body>
+	    <h2 style="text-align: center;">Doe Point Ranking System</h2>
 	    
         <form method="POST">
             <div>
-                <label>Filter Ranking based on attributes:</label>
-                <br>
-				<span title="5 points if above 6 lbs, 3 points otherwise">
-                <input type="checkbox" id="birth_weight" name="birth_weight" value="birth_weight">
-                <label for="birth_weight">Birth Weight</label>
-				</span>
-                <br>
-				<span title="5 points if 'Good Mom', 1 point otherwise">
-                <input type="checkbox" id="mothering" name="mothering" value="mothering">
-                <label for="mothering">Mothering</label>
-				</span>
-                <br>
-				<span title="5 points if 'Good Milk', 1 point otherwise">
-                <input type="checkbox" id="milk_rating" name="milk_rating" value="milk_rating">
-                <label for="milk_rating">Milk Rating</label>
-				</span>
-                <br>
-				<span title="4 points if Twins, 3 points if Triplets, 2 points otherwise">
-                <input type="checkbox" id="num_of_kids" name="num_of_kids" value="num_of_kids">
-                <label for="num_of_kids">Number of Kids</label>
-				</span>
-                <br>
-                <span title="5 points if 'No Problems', 1 point otherwise">
-                <input type="checkbox" id="observations" name="observations" value="observations">
-                <label for="observations">Observations</label>
-                </span>
-                <br>
-                <span title="5 points if 'No Assist', 1 point otherwise">
-                <input type="checkbox" id="kid_ease" name="kid_ease" value="kid_ease">
-                <label for="kid_ease">Kid Ease</label>
-                </span>
-                <br>
-                <span title="5 points if 'Doe stays close', 1 point otherwise">
-                <input type="checkbox" id="mother_score" name="mother_score" value="mother_score">
-                <label for="mother_score">Mother Score</label>
-                </span>
-                <br>
+                <label style="display: block; text-align: center;">Filter Ranking based on attributes:</label>
+                <div style="display: grid; grid-template-columns: auto auto auto auto;">
+					<span style="text-align: center;" title="5 points if above 6 lbs, 3 points otherwise">
+		            <input type="checkbox" id="birth_weight" name="birth_weight" value="birth_weight" {{ 'checked' if 'birth_weight' in filters else '' }}>
+		            <label for="birth_weight">Birth Weight</label>
+					</span>
+					<span style="text-align: center;" title="5 points if 'Good Mom', 1 point otherwise">
+		            <input type="checkbox" id="mothering" name="mothering" value="mothering" {{ 'checked' if 'mothering' in filters else '' }}>
+		            <label for="mothering">Mothering</label>
+					</span>
+					<span style="text-align: center;" title="5 points if 'Good Milk', 1 point otherwise">
+		            <input type="checkbox" id="milk_rating" name="milk_rating" value="milk_rating" {{ 'checked' if 'milk_rating' in filters else '' }}>
+		            <label for="milk_rating">Milk Rating</label>
+					</span>
+					<span style="text-align: center;" title="4 points if Twins, 3 points if Triplets, 2 points otherwise">
+		            <input type="checkbox" id="num_of_kids" name="num_of_kids" value="num_of_kids" {{ 'checked' if 'num_of_kids' in filters else '' }}>
+		            <label for="num_of_kids">Number of Kids</label>
+					</span>
+		            <span style="text-align: center;" title="5 points if 'No Problems', 1 point otherwise">
+		            <input type="checkbox" id="observations" name="observations" value="observations" {{ 'checked' if 'observations' in filters else '' }}>
+		            <label for="observations">Observations</label>
+		            </span>
+		            <span style="text-align: center;" title="5 points if 'No Assist', 1 point otherwise">
+		            <input type="checkbox" id="kid_ease" name="kid_ease" value="kid_ease" {{ 'checked' if 'kid_ease' in filters else '' }}>
+		            <label for="kid_ease">Kid Ease</label>
+		            </span>
+		            <span style="text-align: center;" title="5 points if 'Doe stays close', 1 point otherwise">
+		            <input type="checkbox" id="mother_score" name="mother_score" value="mother_score" {{ 'checked' if 'mother_score' in filters else '' }}>
+		            <label for="mother_score">Mother Score</label>
+		            </span>
+            		<input style="width: 100px;" class="center" type="submit" value="submit">
+				</div>
             </div>
-                <input type="submit" value="submit">
         </form>
 
 		{% if rows %}
-        <table>
+        <table class="center">
             <!-- column header for loop in jinja template -->
             <thead>
                 <tr>
@@ -66,26 +84,15 @@
             </thead>
             <!-- nested for loops in jinja template -->
             <tbody>
-            {%for row in rows%}
+            {% for row in rows %}
                 <tr>
-                {%for col in row%}
-                    <td>{{col}}</td>
-                {%endfor%}
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ "{:,.2f}".format(row[2]) }}</td>
                 </tr>
-            {%endfor%}
+            {% endfor %}
             </tbody>
         </table>
 		{% endif %}
     </body>
-
-    <!-- minimal styling -->
-    <style>
-        form {
-            margin: 1%;
-        }
-
-        div {
-            margin: 1% 0;
-        }
-    </style>
 </html>
