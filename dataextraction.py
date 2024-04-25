@@ -15,7 +15,7 @@ with open("datainsertion.sql","w") as file:
     df = pd.read_csv("Data/Animal.csv")
 
     #selecting attributes of interest
-    df = df.loc[:,["animal_id","sex","dam","status"]]
+    df = df.loc[:,["tag","animal_id","sex","dam","status"]]
     
     #clean up data
     df = df.dropna(how='all')
@@ -23,14 +23,14 @@ with open("datainsertion.sql","w") as file:
     df = df.replace(np.nan, str('NULL'))
     
     #write Animal data into datainserition.sql
-    file.write("INSERT INTO animal (animal_id, sex, dam, status) VALUES")
+    file.write("INSERT INTO animal (tag, animal_id, sex, dam, status) VALUES")
     for i in df.index:
         print(f"Creating inserts for 'animal'...{i}",end='\r')
         if i != 0:
             file.write(",")
         file.write("\n(")
         for j in df:
-            if j in [df.columns[0]]:
+            if j in [df.columns[1]]:
                 file.write(str(df.loc[i,j]))
             else:
                 file.write('\'')
@@ -73,9 +73,10 @@ with open("datainsertion.sql","w") as file:
     
     data = data.replace(np.nan, str('NULL'))
 
-
+    #write insert statement at start
     file.write("INSERT INTO session_animal (session_id, animal_id, birth_weight, observations, milk_rating,kid_ease, num_of_kids, mother_score, mothering) VALUES")
 
+    #write data into datainsertion.sql file
     for i in range(0,len(data.index)):
         print(f"Creating inserts for 'session_animal'...{i}",end='\r')
         if i != 0:

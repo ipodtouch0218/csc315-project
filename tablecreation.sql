@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS session_animal CASCADE;
 CREATE SCHEMA goat;
 
 CREATE TABLE animal (
+    tag varchar(16),
     animal_id SERIAL PRIMARY KEY,
     sex varchar(13),
     status varchar(8),

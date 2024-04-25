@@ -88,6 +88,7 @@
             <thead>
                 <tr>
 					<th>Animal ID</th>
+					<th>Tag</th>
 					<th>Total Points</th>
 					<th>Average PpS</th>
                 </tr>
@@ -98,7 +99,8 @@
                 <tr>
                     <td>{{ row[0] }}</td>
                     <td>{{ row[1] }}</td>
-                    <td>{{ "{:,.2f}".format(row[2]) }}</td>
+					<td>{{ row[2] }}</td>
+                    <td>{{ "{:,.3f}".format(row[3]) }}</td>
                 </tr>
             {% endfor %}
             </tbody>
