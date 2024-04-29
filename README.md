@@ -51,7 +51,11 @@ The repository's purpose is to create a PostgreSQL supported goat database and r
 
 If everything was done correctly, you should now have a working goat database with populated data.
 
-8. Configure and run the Flask application with these two commands:
+8. Run the command:
+   `\i examplequeries.sql`
+   This command is important because not only does it provide useful queries that are then used later in the website, it also creates views in postgres that are essential for the website to work.
+
+10. Configure and run the Flask application with these two commands:
 
    `FLASK_APP=app.py`
    `flask run`
