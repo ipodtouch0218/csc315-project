@@ -55,7 +55,7 @@ If everything was done correctly, you should now have a working goat database wi
    
    `\i examplequeries.sql`
    
-   This command is important because not only does it provide useful queries that are then used later in the website, it also creates views in postgres that are essential for the website to work.
+   This command is important because not only does it provide useful queries that are then used later in the website, it also creates views in postgres that are essential for the website to work. You may now go back to the terminal with `CTRL+C`
 
 9. Configure and run the Flask application with these two commands:
 
