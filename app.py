@@ -86,13 +86,14 @@ def connect(query):
 app = Flask(__name__)
 
 command = '''
-SELECT animal_id,tag,SUM(score),AVG(score) FROM (
+SELECT animal_id,tag,SUM(score),AVG(score),status_score 
+FROM doe_status_scores NATURAL JOIN (
         SELECT animal_id,tag,session_id,
             {conditions}
             AS score
         FROM alive_sessions     
     )
-    GROUP BY animal_id,tag
+    GROUP BY animal_id,tag, status_score
     ORDER BY AVG(score) DESC;
 '''
 
@@ -139,14 +140,14 @@ def checkbox_handler():
             return render_template('my-form.html')
 
         fquery = '''
-        SELECT animal_id,tag,SUM(score),AVG(score) FROM (
-                SELECT animal_id,tag,session_id,
-                    {conditions}
-                    AS score
-                FROM alive_sessions     
-            )
-            GROUP BY animal_id,tag
-            ORDER BY AVG(score) DESC;
+        SELECT animal_id,tag,SUM(score),AVG(score),status_score 
+        FROM doe_status_scores NATURAL JOIN (
+            SELECT animal_id,tag,session_id,
+                {conditions}
+                AS score
+            FROM alive_sessions)
+        GROUP BY animal_id,tag, status_score
+        ORDER BY AVG(score) DESC;
         '''
         fquery = fquery.format(conditions='+'.join(filter))
 
